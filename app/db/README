@@ -1,0 +1,8 @@
+gpx.sql: Table structure for GPX in PostGIS
+gpx2sql.py: Loads GPX files in PostGIS
+
+Other Stuff
+get_osm_gpx.py: downloads OSM stored GPX files
+sync_gpx_dirs.py: conflates two directories on gpx files
+gpx2shp.rb: (possibly not working, definitely hacky) conversion of GPX to Shapefile
+gpx8.vrt: VRT definition for ogr2ogr conversion of CSV to Shapefile

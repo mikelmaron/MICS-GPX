@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE Map[]>
+<Map background-color="#ffffff" srs="+init=epsg:900913">
+
+<Style name="points" filter-mode="first">
+  <Rule>
+    <Filter>[gps_name] = 'GPS_1'</Filter>
+    <MarkersSymbolizer width="1" stroke-width="0" stroke="#0000ff" fill="#b83030" allow-overlap="true" />
+  </Rule>
+  <Rule>
+    <Filter>[gps_name] = 'GPS_2'</Filter>
+    <MarkersSymbolizer width="1" stroke-width="0" stroke="#0000ff" fill="#e29f1c" allow-overlap="true" />
+  </Rule>
+  <Rule>
+    <Filter>[gps_name] = 'GPS_3'</Filter>
+    <MarkersSymbolizer width="1" stroke-width="0" stroke="#0000ff" fill="#fbd975" allow-overlap="true" />
+  </Rule>
+  <Rule>
+    <Filter>[gps_name] = 'GPS_4'</Filter>
+    <MarkersSymbolizer width="1" stroke-width="0" stroke="#0000ff" fill="#ABB36B" allow-overlap="true" />
+  </Rule>
+  <Rule>
+    <Filter>[gps_name] = 'GPS_5'</Filter>
+    <MarkersSymbolizer width="1" stroke-width="0" stroke="#0000ff" fill="#99ff00" allow-overlap="true" />
+  </Rule>
+  <Rule>
+    <Filter>[gps_name] = 'GPS_6'</Filter>
+    <MarkersSymbolizer width="1" stroke-width="0" stroke="#0000ff" fill="#0a6791" allow-overlap="true" />
+  </Rule> 
+  <Rule>
+    <Filter>[gps_name] = 'GPS_7'</Filter>
+    <MarkersSymbolizer width="1" stroke-width="0" stroke="#ff0000" fill="#5e376b" allow-overlap="true" /> 
+  </Rule>
+  <Rule>            
+    <Filter>[gps_name] = 'GPS_8'</Filter>
+    <MarkersSymbolizer width="1" stroke-width="0" stroke="#ff0000" fill="#8c155d" allow-overlap="true" />
+  </Rule>
+</Style>
+
+<Layer name="points" srs="+init=epsg:900913">
+  <StyleName>points</StyleName>
+  <Datasource>
+    <Parameter name="table">
+      (select gps_points.geom as geom, gpx_files.gps_name as gps_name from gps_points INNER join gpx_files on gpx_files.id = gps_points.gpx_id) as points 
+    </Parameter>
+    <Parameter name="type">postgis</Parameter>
+    <Parameter name="host">localhost</Parameter>
+    <Parameter name="dbname">gpx-merc</Parameter>
+    <Parameter name="port">5433</Parameter>
+    <Parameter name="user">gpx</Parameter>      
+    <Parameter name="password">gpx</Parameter>
+    <Parameter name="estimate_extent">false</Parameter>
+    <!--<Parameter name="extent">-180,-90,180,89.99</Parameter>-->
+  </Datasource>
+</Layer>
+
+</Map>
