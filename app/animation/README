@@ -1,0 +1,10 @@
+For each image sorted by date
+  Combine with previous image into background image
+    composite in1.png background.png background-new.png
+  Make background image with increased transparency
+    convert /tmp/out.png -alpha on -channel a -evaluate set 75% /tmp/out2.png  
+  Comine with increased transparency background image into iterated 
+    composite in1.png in2.png out.png
+  
+Then
+  ffmpeg -qscale 5 -r 20 -b 9600 -i img%04d.png movie.mp4
