@@ -28,6 +28,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.text.*;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
@@ -78,6 +79,12 @@ public class ElevationProfileDialog extends ToggleDialog implements
 	private JLabel elevationGainLabel;
 	private JLabel totalTimeLabel;
 	private JLabel distLabel;
+	private JLabel minSpeedLabel;
+	private JLabel maxSpeedLabel;
+	private JLabel avgSpeedLabel;		
+	private JLabel fuelLabel;
+	private JTextField fuelCity;
+	private JTextField fuelHighway;
 	private JRadioButton geoidNone;
 	private JRadioButton geoidAuto;
 	private JRadioButton geoidFixed;
@@ -123,12 +130,13 @@ public class ElevationProfileDialog extends ToggleDialog implements
 	 *            if the dialog should be shown by default, if there is no
 	 *            preference
 	 */
+	 // This is where the dialog panel is constructed
 	public ElevationProfileDialog(String name, String iconName, String tooltip,
 			Shortcut shortcut, int preferredHeight, boolean defShow) {
 		super(name, iconName, tooltip, shortcut, preferredHeight, defShow);
 				
 		JPanel dataPanel = new JPanel();
-		GridLayout gridLayout = new GridLayout(3, 6);
+		GridLayout gridLayout = new GridLayout(5, 6);
 		dataPanel.setLayout(gridLayout);
 
 		// first row: Headlines with bold font
@@ -149,7 +157,7 @@ public class ElevationProfileDialog extends ToggleDialog implements
 		dataPanel.add(lbl);
 		lbl = new JLabel(tr("Time"));
 		lbl.setFont(getFont().deriveFont(Font.BOLD));
-		dataPanel.add(lbl);
+		dataPanel.add(lbl);	
 
 		// second row
 		minHeightLabel = new JLabel("0 m");
@@ -164,12 +172,14 @@ public class ElevationProfileDialog extends ToggleDialog implements
 		dataPanel.add(elevationGainLabel);
 		totalTimeLabel = new JLabel("0");
 		dataPanel.add(totalTimeLabel);
-
+		
 		// Geoid
 		JLabel geoidHead = new JLabel(tr("Geoid"));
 		geoidHead.setFont(getFont().deriveFont(Font.BOLD));
 		dataPanel.add(geoidHead);
 
+    // OK so here is where to set up a dialog and listener.
+    
 		geoidNone = new JRadioButton(tr("None"));
 		// TODO: Obtain value from preferences
 		geoidNone.setSelected(true);
@@ -217,6 +227,66 @@ public class ElevationProfileDialog extends ToggleDialog implements
 		dataPanel.add(geoidFixed);
 		dataPanel.add(geoidFixedValue);
 		dataPanel.add(new JLabel(" m"));
+
+		// Speed and Fuel
+		lbl = new JLabel(tr("Min Speed"));
+		lbl.setFont(getFont().deriveFont(Font.BOLD));
+		dataPanel.add(lbl);	
+		lbl = new JLabel(tr("Max Speed"));
+		lbl.setFont(getFont().deriveFont(Font.BOLD));
+		dataPanel.add(lbl);	
+		lbl = new JLabel(tr("Avg Speed"));
+		lbl.setFont(getFont().deriveFont(Font.BOLD));
+		dataPanel.add(lbl);	
+		lbl = new JLabel(tr("City km/lt"));
+		lbl.setFont(getFont().deriveFont(Font.BOLD));
+		dataPanel.add(lbl);	
+		lbl = new JLabel(tr("Highway km/lt"));
+		lbl.setFont(getFont().deriveFont(Font.BOLD));
+		dataPanel.add(lbl);					
+		lbl = new JLabel("Fuel (lt)");
+		lbl.setFont(getFont().deriveFont(Font.BOLD));
+		dataPanel.add(lbl);
+
+		minSpeedLabel = new JLabel("0 m");
+		dataPanel.add(minSpeedLabel);
+		maxSpeedLabel = new JLabel("0 m");
+		dataPanel.add(maxSpeedLabel);
+		avgSpeedLabel = new JLabel("0 m");
+		dataPanel.add(avgSpeedLabel);
+		
+		fuelCity = new JTextField("0");
+		fuelCity.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			  try {  
+          getModel().setFuelCity(Double.parseDouble(fuelCity.getText()));
+				  getModel().setFuel(getModel().computeFuelUsage());
+				  updateView();
+        } catch(NumberFormatException exc) {  
+          return;
+        }    
+			}
+		});
+		
+		dataPanel.add(fuelCity);
+		
+		fuelHighway = new JTextField("0");
+		fuelHighway.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			  try {  
+          getModel().setFuelHighway(Double.parseDouble(fuelHighway.getText()));
+				  getModel().setFuel(getModel().computeFuelUsage());
+				  updateView();
+        } catch(NumberFormatException exc) {  
+          return;
+        } 
+			}
+		});
+		
+		dataPanel.add(fuelHighway); 
+
+		fuelLabel = new JLabel("0 m");
+		dataPanel.add(fuelLabel);								
 
 		add(dataPanel, BorderLayout.PAGE_END);
 		profile = new ElevationModel();
@@ -307,8 +377,17 @@ public class ElevationProfileDialog extends ToggleDialog implements
 			
 			double dist = profile.getDistance();
 
-			totalTimeLabel.setText(String.format("%d:%d h", hours, minutes));
+			totalTimeLabel.setText(String.format("%02d:%02d h", hours, minutes));
 			distLabel.setText(NavigatableComponent.getSystemOfMeasurement().getDistText(dist));
+			
+			DecimalFormat df = new DecimalFormat("#.##");
+			minSpeedLabel.setText(df.format(profile.getMinSpeed()));
+			maxSpeedLabel.setText(df.format(profile.getMaxSpeed()));
+			avgSpeedLabel.setText(df.format(profile.getAvgSpeed()));
+			
+			fuelLabel.setText(df.format(profile.getFuel()));
+			fuelCity.setText(Double.toString(profile.getFuelCity()));
+			fuelHighway.setText(Double.toString(profile.getFuelHighway()));
 		} else { // no elevation data, -> switch back to empty view
 			setTitle(String.format("%s: (No data)", tr("Elevation Profile")));
 			
@@ -318,6 +397,12 @@ public class ElevationProfileDialog extends ToggleDialog implements
 			elevationGainLabel.setText(EMPTY_DATA_STRING);
 			totalTimeLabel.setText(EMPTY_DATA_STRING);
 			distLabel.setText(EMPTY_DATA_STRING);
+			minSpeedLabel.setText(EMPTY_DATA_STRING);
+			maxSpeedLabel.setText(EMPTY_DATA_STRING);
+			avgSpeedLabel.setText(EMPTY_DATA_STRING);
+		  fuelLabel.setText(EMPTY_DATA_STRING);
+		  fuelCity.setText(EMPTY_DATA_STRING);
+		  fuelHighway.setText(EMPTY_DATA_STRING);
 		}
 		
 		fireModelChanged();

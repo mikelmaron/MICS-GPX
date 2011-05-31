@@ -52,6 +52,15 @@ public abstract class ElevationProfileBase implements IElevationProfile,
 	private int maxHeight;
 	private int avrgHeight;
 	private double dist;
+	private double minSpeed;
+	private double maxSpeed;
+	private double avgSpeed;
+	private double fuel;
+	//using Toyota Tundra as guide
+	//http://www.toyota.com/tundra/ 16/20 mpg
+  //1 mile per gallon = 0.425143707 kilometers per liter
+	private double fuelCity = 6.802;
+	private double fuelHighway = 8.503;
 	private Date start = new Date();
 	private Date end = new Date();
 	private WayPoint[] importantWayPoints = new WayPoint[4];
@@ -362,6 +371,114 @@ public abstract class ElevationProfileBase implements IElevationProfile,
 	}
 
 	/**
+	 * Sets the distance of the elevation profile.
+	 * @param dist
+	 */
+	public void setFuel(double fuel) {
+		this.fuel = fuel; 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.openstreetmap.josm.plugins.elevation.IElevationProfile#getMaxHeight()
+	 */
+	public double getFuel() {
+		return fuel;
+	}
+
+	/**
+	 * Sets the distance of the elevation profile.
+	 * @param dist
+	 */
+	public void setFuelCity(double fuelCity) {
+		this.fuelCity = fuelCity; 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.openstreetmap.josm.plugins.elevation.IElevationProfile#getMaxHeight()
+	 */
+	public double getFuelCity() {
+		return fuelCity;
+	}
+	
+	/**
+	 * Sets the distance of the elevation profile.
+	 * @param dist
+	 */
+	public void setFuelHighway(double fuelHighway) {
+		this.fuelHighway = fuelHighway; 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.openstreetmap.josm.plugins.elevation.IElevationProfile#getMaxHeight()
+	 */
+	public double getFuelHighway() {
+		return fuelHighway;
+	}
+
+	/**
+	 * Sets the distance of the elevation profile.
+	 * @param dist
+	 */
+	public void setMinSpeed(double minSpeed) {
+		this.minSpeed = minSpeed; 
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.openstreetmap.josm.plugins.elevation.IElevationProfile#getMaxHeight()
+	 */
+	public double getMinSpeed() {
+		return minSpeed;
+	}
+	
+	/**
+	 * Sets the distance of the elevation profile.
+	 * @param dist
+	 */
+	public void setMaxSpeed(double maxSpeed) {
+		this.maxSpeed = maxSpeed; 
+	}
+		
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.openstreetmap.josm.plugins.elevation.IElevationProfile#getMaxHeight()
+	 */
+	public double getMaxSpeed() {
+		return maxSpeed;
+	}
+
+	/**
+	 * Sets the distance of the elevation profile.
+	 * @param dist
+	 */
+	public void setAvgSpeed(double avgSpeed) {
+		this.avgSpeed = avgSpeed; 
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.openstreetmap.josm.plugins.elevation.IElevationProfile#getMaxHeight()
+	 */
+	public double getAvgSpeed() {
+		return avgSpeed;
+	}
+						
+	/**
 	 * Returns the time between start and end of the track.
 	 * @return
 	 */
@@ -480,6 +597,7 @@ public abstract class ElevationProfileBase implements IElevationProfile,
 	 * Visits a way point in order to update statistical values about the given
 	 * way point list.
 	 */
+	 // This is where the calculation takes place
 	public void visit(WayPoint wp) {
 		if (wp.getTime().after(end)) {
 			setEnd(wp);

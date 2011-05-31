@@ -23,6 +23,7 @@ import org.openstreetmap.josm.data.gpx.GpxTrack;
 import org.openstreetmap.josm.data.gpx.GpxTrackSegment;
 import org.openstreetmap.josm.data.gpx.WayPoint;
 
+
 /**
  * Represents the top-level part of the elevation model. The elevation model
  * breaks done into the tracks/routes of a GPX file (see
@@ -150,7 +151,12 @@ public class ElevationModel extends ElevationProfileBase implements IGpxVisitor 
 			tracks.clear();
 		}
 
+    // This is where the overall distance calculation happens
+    // may need to do gas calculation here
 		setDistance(gpxData.length());	// get distance from GPX 
+		// Iterating multiple times, not so effiecient
+		setFuel(computeFuelUsage());
+		computeSpeeds();
 		GpxIterator.visit(gpxData, this);
 
 		// reduce data
@@ -158,6 +164,95 @@ public class ElevationModel extends ElevationProfileBase implements IGpxVisitor 
 				getSliceSize()), false);
 	}
 
+	/**
+	 * Returns the computed fuel usages
+   * @return
+   */
+	public double computeFuelUsage() {
+    double result = 0.0; // liters
+
+    for (GpxTrack trk: gpxData.tracks) {
+    for (GpxTrackSegment trkseg : trk.getSegments()) {
+ 
+      WayPoint last = null;
+      for (WayPoint tpt : trkseg.getWayPoints()) {
+
+        if(last != null) {
+          Double d = last.getCoor().greatCircleDistance(tpt.getCoor()) / 1000; // in km
+          if(!d.isNaN() && !d.isInfinite()) {
+            if (tpt.time != 0) {
+              double timediff = tpt.time - last.time; // in seconds
+              double speed = d / (timediff / (3600)); // in km/hr
+              // roughly calculate "highway" as anything above 77km/hr
+              // https://secure.wikimedia.org/wikipedia/en/wiki/Fuel_economy_in_automobiles#EPA_testing_procedure_through_2007
+                
+              if (speed > 77) { 
+                result += d / this.getFuelHighway(); // fuel consumption in km/lt
+              } else {
+                result += d / this.getFuelCity(); // fuel consumption in km/lt
+              }
+
+            }
+          }
+        
+        }
+        last = tpt;
+      }
+   }   
+   }
+
+   return result;
+  }
+
+	/**
+	 * Returns the computed fuel usages
+   * 
+   */
+	private void computeSpeeds() {
+    double _maxSpeed = 0.0;
+    double _minSpeed = 1000.0;
+    double _avgSpeed;
+    
+    double totalDistance = 0.0;
+    double totalTime = 0.0;
+    
+    for (GpxTrack trk: gpxData.tracks) {
+    for (GpxTrackSegment trkseg : trk.getSegments()) {
+ 
+      WayPoint last = null;
+      for (WayPoint tpt : trkseg.getWayPoints()) {
+
+        if(last != null) {
+          Double d = last.getCoor().greatCircleDistance(tpt.getCoor()) / 1000; // in km
+          if(!d.isNaN() && !d.isInfinite()) {
+            if (tpt.time != 0) {
+              double timediff = tpt.time - last.time; // in seconds
+              double speed = d / (timediff / (3600)); // in km/hr
+              
+              if (speed > _maxSpeed) {
+                _maxSpeed = speed;
+              }
+              if (speed < _minSpeed) {
+                _minSpeed = speed;
+              }  
+              
+              totalDistance += d;
+              totalTime += timediff;
+            }
+          }
+        
+        }
+        last = tpt;
+      }
+   }   
+   }
+   _avgSpeed = totalDistance / (totalTime / 3600);
+   
+   setMinSpeed(_minSpeed);
+   setMaxSpeed(_maxSpeed);
+   setAvgSpeed(_avgSpeed);
+  }
+      
 	/**
 	 * Forces the model to refresh itself. Clients (e. g. UI widgets) may use
 	 * this method to notify the model on UI changes.
