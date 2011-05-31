@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/!svn/ver/26034/applications/editors/josm/plugins/ElevationProfile/src/org/openstreetmap/josm/plugins/elevation/gui
+END
+DefaultElevationProfileRenderer.java
+K 25
+svn:wc:ra_dav:version-url
+V 152
+/!svn/ver/23976/applications/editors/josm/plugins/ElevationProfile/src/org/openstreetmap/josm/plugins/elevation/gui/DefaultElevationProfileRenderer.java
+END
+TextAlignment.java
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/!svn/ver/23795/applications/editors/josm/plugins/ElevationProfile/src/org/openstreetmap/josm/plugins/elevation/gui/TextAlignment.java
+END
+ElevationProfileLayer.java
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/!svn/ver/24036/applications/editors/josm/plugins/ElevationProfile/src/org/openstreetmap/josm/plugins/elevation/gui/ElevationProfileLayer.java
+END
+TriangleDir.java
+K 25
+svn:wc:ra_dav:version-url
+V 132
+/!svn/ver/23795/applications/editors/josm/plugins/ElevationProfile/src/org/openstreetmap/josm/plugins/elevation/gui/TriangleDir.java
+END
+Triangle.java
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/!svn/ver/23795/applications/editors/josm/plugins/ElevationProfile/src/org/openstreetmap/josm/plugins/elevation/gui/Triangle.java
+END
+ElevationProfileDialog.java
+K 25
+svn:wc:ra_dav:version-url
+V 143
+/!svn/ver/26034/applications/editors/josm/plugins/ElevationProfile/src/org/openstreetmap/josm/plugins/elevation/gui/ElevationProfileDialog.java
+END
+ElevationProfilePanel.java
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/!svn/ver/23976/applications/editors/josm/plugins/ElevationProfile/src/org/openstreetmap/josm/plugins/elevation/gui/ElevationProfilePanel.java
+END
+IElevationProfileRenderer.java
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/!svn/ver/23795/applications/editors/josm/plugins/ElevationProfile/src/org/openstreetmap/josm/plugins/elevation/gui/IElevationProfileRenderer.java
+END
+ElevationColors.java
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/!svn/ver/23795/applications/editors/josm/plugins/ElevationProfile/src/org/openstreetmap/josm/plugins/elevation/gui/ElevationColors.java
+END
+IElevationProfileSelectionListener.java
+K 25
+svn:wc:ra_dav:version-url
+V 155
+/!svn/ver/23795/applications/editors/josm/plugins/ElevationProfile/src/org/openstreetmap/josm/plugins/elevation/gui/IElevationProfileSelectionListener.java
+END

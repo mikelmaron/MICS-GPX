@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/!svn/ver/26034/applications/editors/josm/plugins/ElevationProfile
+END
+.classpath
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/24011/applications/editors/josm/plugins/ElevationProfile/.classpath
+END
+LICENSE
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/23709/applications/editors/josm/plugins/ElevationProfile/LICENSE
+END
+.project
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/23976/applications/editors/josm/plugins/ElevationProfile/.project
+END
+josm-ElevationProfile.launch
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/!svn/ver/26034/applications/editors/josm/plugins/ElevationProfile/josm-ElevationProfile.launch
+END
+.classpath.swp
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/!svn/ver/24011/applications/editors/josm/plugins/ElevationProfile/.classpath.swp
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/!svn/ver/23784/applications/editors/josm/plugins/ElevationProfile/README
+END
+build.xml
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/25192/applications/editors/josm/plugins/ElevationProfile/build.xml
+END
