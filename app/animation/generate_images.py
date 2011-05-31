@@ -12,9 +12,9 @@ def render_image(start_time,end_time):
     c0 = prj.forward(mapnik.Coord(ll[0],ll[1]))
     c1 = prj.forward(mapnik.Coord(ll[2],ll[3]))
 
-    z = 2
-    imgx = 500 * z
-    imgy = 500 * z
+    z = 3
+    imgx = 336 * z
+    imgy = 450 * z
 
     m = mapnik.Map(imgx,imgy)
     mapnik.load_map(m,"gpx-nolayer.xml")
@@ -48,8 +48,8 @@ def render_image(start_time,end_time):
 
 if __name__ == "__main__":
   cur_time = datetime(2010,8,10,0,0,0)
-  end_time = datetime(2010,10,13,23,59,59)
-  delta = timedelta(hours=+2)
+  end_time = datetime(2010,12,6,23,59,59)
+  delta = timedelta(minutes=+30)
   while cur_time < end_time:
     render_image(cur_time.isoformat(), (cur_time+delta).isoformat())
     cur_time = cur_time + delta
